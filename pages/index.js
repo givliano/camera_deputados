@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 
 export default function App() {
   const [ deputies, setDeputies ] = useState([]);
+  const [ url, setUrl ] = useState('https://dadosabertos.camara.leg.br/api/v2/deputados?itens=100');
 
   useEffect(() => {
-    async function fetchData(url) {
+    console.log(url)
+    async function fetchData() {
       const data = await fetch(url);
       const dataJson = await data.json();
 
@@ -12,11 +14,12 @@ export default function App() {
 
       {/* Returned by the API */}
       const hasMorePages = dataJson.links.filter(({ rel }) => rel === 'next');
-      hasMorePages.forEach(({ href }) => fetchData(href));
+      hasMorePages.forEach(({ href }) => setUrl(href));
     }
 
-    fetchData('https://dadosabertos.camara.leg.br/api/v2/deputados?itens=100');
-  }, [])
+    // fetchData('https://dadosabertos.camara.leg.br/api/v2/deputados?itens=100');
+    fetchData();
+  }, [url])
 
   return (
     <div>
