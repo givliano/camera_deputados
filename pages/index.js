@@ -1,17 +1,27 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function App() {
+  const [ deputies, setDeputies ] = useState([]);
+
   useEffect(() => {
-    async function fetchData() {
-      const data = await fetch('https://dadosabertos.camara.leg.br/api/v2/deputados');
+    async function fetchData(url) {
+      const data = await fetch(url);
       const dataJson = await data.json();
-      console.log(dataJson);
+
+      setDeputies((oldData) => [...oldData, ...dataJson.dados]);
+
+      {/* Returned by the API */}
+      const hasMorePages = dataJson.links.filter(({ rel }) => rel === 'next');
+      hasMorePages.forEach(({ href }) => fetchData(href));
     }
 
-    fetchData();
+    fetchData('https://dadosabertos.camara.leg.br/api/v2/deputados?itens=100');
   }, [])
 
   return (
-    <h1>Hello World</h1>
+    <div>
+      <h1>Hello World</h1>
+      <p>{deputies.map(({ nome }) => nome)}</p>
+    </div>
   )
 }
