@@ -17,7 +17,6 @@ export default function App() {
       hasMorePages.forEach(({ href }) => setUrl(href));
     }
 
-    // fetchData('https://dadosabertos.camara.leg.br/api/v2/deputados?itens=100');
     fetchData();
   }, [url])
 
