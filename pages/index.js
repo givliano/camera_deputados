@@ -1,8 +1,18 @@
 import { useEffect, useState } from 'react';
 
-export default function App() {
-  const [ deputies, setDeputies ] = useState([]);
-  const [ url, setUrl ] = useState('https://dadosabertos.camara.leg.br/api/v2/deputados?itens=100');
+export async function getStaticProps() {
+  const data = await fetch('https://dadosabertos.camara.leg.br/api/v2/deputados');
+  const dataJson = await data.json();
+  const allDeputiesNames = dataJson.dados.map(deputy => deputy.nome)
+
+  return {
+    props: {
+      deputies: dataJson.dados,
+      allDeputiesNames
+    }
+  }
+}
+
 
   useEffect(() => {
     console.log(url)
