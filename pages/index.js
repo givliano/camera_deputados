@@ -13,27 +13,36 @@ export async function getStaticProps() {
   }
 }
 
+export default function App({ deputies, allDeputiesNames }) {
+  const [ expenses, setExpenses ] = useState([]);
 
   useEffect(() => {
-    console.log(url)
     async function fetchData() {
-      const data = await fetch(url);
+      const data = await fetch('https://dadosabertos.camara.leg.br/api/v2/deputados/92346/despesas');
       const dataJson = await data.json();
 
-      setDeputies((oldData) => [...oldData, ...dataJson.dados]);
+      const lastSixMonthsExpenses = dataJson.dados.reduce((prev, cur) => {
+        return prev + cur.valorLiquido
+      }, 0);
 
-      {/* Returned by the API */}
-      const hasMorePages = dataJson.links.filter(({ rel }) => rel === 'next');
-      hasMorePages.forEach(({ href }) => setUrl(href));
+      setExpenses(lastSixMonthsExpenses);
     }
 
     fetchData();
-  }, [url])
+  }, []);
+
+
+  // const totalSpent = expenses.reduce((prev, curr) => prev.valorLiquido + curr.valorLiquido, 0);
 
   return (
     <div>
-      <h1>Hello World</h1>
-      <p>{deputies.map(({ nome }) => nome)}</p>
+      <h1>Quanto gastou o deputado?</h1>
+      <form>
+        <label htmlFor="name">Nome do Deputado</label>
+        <input name="name" type="text"></input>
+      </form>
+      <p>{expenses}</p>
+      {/* <p>{deputies.map(({ nome }) => nome)}</p> */}
     </div>
   )
 }
