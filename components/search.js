@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Profile from './profile';
 
 export default function Search({ deputies }) {
   const [ expenses, setExpenses ] = useState([]);
@@ -34,11 +35,12 @@ export default function Search({ deputies }) {
         <datalist id="deputy-names">
           {deputies.map(deputy => (
             <option value={deputy.nome} key={deputy.id} />
-            ))}
+          ))}
         </datalist>
         <button>Pesquisar</button>
       </form>
-      <p>{expenses}</p>
+      { selectedDeputy.id ? <Profile {...selectedDeputy} /> : <p>Loading</p> }
+      <p>Gastos dos últimos 6 meses: {expenses}</p>
     </div>
   );
 }
