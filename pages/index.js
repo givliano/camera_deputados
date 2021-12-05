@@ -1,4 +1,5 @@
 import Search from '../components/search';
+import styles from './index.module.css';
 
 export async function getStaticProps() {
   const data = await fetch('https://dadosabertos.camara.leg.br/api/v2/deputados');
@@ -13,7 +14,7 @@ export async function getStaticProps() {
 
 export default function App({ deputies, allDeputiesNames }) {
   return (
-    <div>
+    <div className={styles.container}>
       <h1>Quanto gastou o deputado?</h1>
       <Search deputies={deputies} />
     </div>
