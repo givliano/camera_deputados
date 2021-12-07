@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Profile from './profile';
+import styles from '../styles/search.module.css';
 
 export default function Search({ deputies }) {
   const [ expenses, setExpenses ] = useState([]);
@@ -30,8 +31,10 @@ export default function Search({ deputies }) {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Nome do Deputado</label>
-        <input list="deputy-names" name="name" type="text"></input>
+        <div className={styles.inputContainer}>
+          <label htmlFor="name">Nome do Deputado</label>
+          <input list="deputy-names" name="name" type="text"></input>
+        </div>
         <datalist id="deputy-names">
           {deputies.map(deputy => (
             <option value={deputy.nome} key={deputy.id} />

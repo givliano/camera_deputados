@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 80vw;
+  margin-top: 5rem;
+}
+
+.title {
+  text-align: center;
+}

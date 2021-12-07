@@ -1,5 +1,5 @@
 import Search from '../components/search';
-import styles from './index.module.css';
+import styles from '../styles/index.module.css';
 
 export async function getStaticProps() {
   const data = await fetch('https://dadosabertos.camara.leg.br/api/v2/deputados');
@@ -12,10 +12,11 @@ export async function getStaticProps() {
   }
 }
 
-export default function App({ deputies, allDeputiesNames }) {
+export default function App({ deputies }) {
   return (
     <div className={styles.container}>
-      <h1>Quanto gastou o deputado?</h1>
+      <h1 className={styles.title}>Quanto gastou o deputado?</h1>
+      <h2>Gastos a título da Cota para Exercício da Atividade Parlamentar, a chamada "cota parlamentar".</h2>
       <Search deputies={deputies} />
     </div>
   )
